@@ -4,6 +4,7 @@
   const QUOTE_KEY = "sunflowers-cotizacion";
   const UNIDAD = { unidad: "por unidad", mes: "por mes", persona: "por persona", evento: "por evento" };
 
+  const celular = matchMedia("(max-width: 560px)");
   const findProp = (id) => PROPUESTAS.find((p) => p.id === id);
   const lineaNombre = (id) => LINEAS.find((l) => l.id === id)?.nombre || "";
   // Foto de la propuesta, o la ilustración si no tiene
@@ -206,7 +207,8 @@
     if (t.dataset.linea) {
       filtro = t.dataset.linea; renderChips(); renderTags();
     }
-    if (t.dataset.ver) openDetail(t.dataset.ver);
+    // En el celular la foto de la etiqueta no abre el detalle (se abre con "sumar"), así no se dispara al scrollear
+    if (t.dataset.ver && !(t.classList.contains("tag__art") && celular.matches)) openDetail(t.dataset.ver);
     if (t.dataset.qty) {
       const q = quote[t.dataset.qty];
       q.cantidad = Math.max(1, q.cantidad + Number(t.dataset.d));

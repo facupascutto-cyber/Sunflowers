@@ -80,7 +80,8 @@ const Carrusel = (() => {
     band.addEventListener("pointerdown", (e) => {
       dragging = true; moved = 0; velocity = 0;
       lastX = e.clientX; lastT = performance.now();
-      pressed = e.target.closest(".reel");
+      // En pantallas táctiles el carrusel es solo para deslizar: tocar una foto no abre el detalle
+      pressed = e.pointerType === "touch" ? null : e.target.closest(".reel");
       band.setPointerCapture(e.pointerId);
       band.classList.add("grabbing");
     });
@@ -94,12 +95,13 @@ const Carrusel = (() => {
       moved += Math.abs(e.clientX - lastX);
       lastX = e.clientX; lastT = now;
     });
-    const release = () => {
+    const release = (e) => {
       if (!dragging) return;
       dragging = false;
       band.classList.remove("grabbing");
       if (performance.now() - lastT > 80) velocity = 0; // soltó quieto: sin inercia
-      if (moved < 6 && pressed) onSelect(items[pressed.dataset.i]);
+      // pointercancel = el navegador tomó el gesto para scrollear: nunca cuenta como toque
+      if (e.type === "pointerup" && moved < 6 && pressed) onSelect(items[pressed.dataset.i]);
       pressed = null;
     };
     band.addEventListener("pointerup", release);
