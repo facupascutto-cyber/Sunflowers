@@ -255,6 +255,9 @@
   // ---------- Init ----------
   Flowers.mount();
   renderTienda();
+  // Copia de la franja para que en el celular pase como cinta continua (oculta en escritorio)
+  const strip = $(".strip__inner");
+  strip.insertAdjacentHTML("beforeend", [...strip.children].map((s) => `<span class="strip__clone" aria-hidden="true">${s.innerHTML}</span>`).join(""));
   renderGreeting();
   renderChips();
   renderTags();

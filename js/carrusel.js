@@ -34,7 +34,7 @@ const Carrusel = (() => {
     let offset = 0, velocity = 0, dragging = false, lastX = 0, lastT = 0, moved = 0, pressed = null, prev = performance.now();
 
     // Ancho del marco en unidades (1440 en escritorio, 640 en celulares)
-    const frameWidth = () => (band.clientWidth <= 820 ? 640 : 1440);
+    const frameWidth = () => (band.clientWidth <= 560 ? 520 : band.clientWidth <= 820 ? 640 : 1440);
     const unit = () => band.clientWidth / frameWidth();
 
     function layout() {
@@ -46,11 +46,11 @@ const Carrusel = (() => {
         let t = ((i * PITCH - offset) % loop + loop) % loop;
         if (t > loop / 2) t -= loop;
         const x = C + t * (1 + 0.083 * (t / span) ** 2);
-        const d = Math.abs(x - C) / span;
+        const d = Math.min(Math.abs(x - C) / span, 1.15);   // limitado: fuera del marco no sigue creciendo
         const w = 170 + 48 * d * d;
         const xl = x - w / 2, xr = x + w / 2;
         if (xr < -40 || xl > W + 40) { el.style.visibility = "hidden"; return; }
-        const hEdge = (xe) => 280 + 92 * (Math.abs(xe - C) / span) ** 2.6;
+        const hEdge = (xe) => 280 + 92 * Math.min(Math.abs(xe - C) / span, 1.15) ** 2.6;
         const hL = hEdge(xl), hR = hEdge(xr), hMax = Math.max(hL, hR);
         const cy = H / 2 + 12 - 12 * d * d;
         el.style.visibility = "visible";

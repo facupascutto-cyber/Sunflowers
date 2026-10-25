@@ -121,6 +121,7 @@ h1 .hand { color: var(--orange); font-size: .66em; transform: rotate(-2deg); mar
 .strip { background: var(--sun); color: var(--green); font-family: var(--hand); font-size: 1.5rem; }
 .strip__inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 2rem; padding: .9rem 0; }
 .strip span::first-letter { color: var(--orange); }
+.strip__clone { display: none; }
 
 /* ---------- Secciones ---------- */
 .section { padding: 5rem 0; }
@@ -415,4 +416,73 @@ body { background-image: repeating-linear-gradient(0deg, rgba(120, 90, 30, .07) 
 @media print {
   .deco::before, .deco::after, .strip::before, .strip::after, .tag::before, .steps li::before { display: none; }
   .title h2 { background: none; }
+}
+
+/* ---------- Celular ---------- */
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (max-width: 560px) {
+  .section { padding: 3.5rem 0; }
+  .title { margin-bottom: 1.6rem; }
+  .title h2 { font-size: 2.6rem; }
+  .title p { font-size: .95rem; }
+
+  /* Portada: título a todo el ancho, botones lado a lado, fotos grandes */
+  .hero { padding: 1.2rem 0 1.6rem; }
+  .stamp { font-size: 1.2rem; }
+  .greeting { font-size: 1.35rem; max-width: 28ch; margin-top: .5rem; }
+  h1 { font-size: 15.5vw; line-height: .9; margin: .5rem 0 .4rem; }
+  h1 .hand { font-size: .5em; margin-top: .25em; }
+  .hero__cta { flex-wrap: nowrap; gap: .6rem; margin-top: .9rem; }
+  .hero__cta .btn { padding: .75rem .95rem; font-size: .95rem; white-space: nowrap; }
+  .ring { padding: 5px; }
+  .note-hand--left { display: none; }
+  .reels { height: 86vw; margin-top: .6rem; }
+
+  /* Franja: cinta en movimiento */
+  .strip { overflow: hidden; }
+  .strip__inner { width: max-content; margin: 0; flex-wrap: nowrap; justify-content: flex-start; gap: 0; padding: .8rem 0; font-size: 1.3rem; animation: marquee 24s linear infinite; }
+  .strip__inner > * { white-space: nowrap; margin-right: 2.2rem; }
+  .strip__clone { display: inline; }
+
+  /* Filtros en una línea deslizable */
+  .chips { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; margin: 0 -16px 1.8rem; padding: 4px 16px 8px; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; scroll-snap-align: start; font-size: 1.25rem; }
+
+  /* Propuestas en 2 columnas compactas */
+  .tags { grid-template-columns: 1fr 1fr; gap: 1.7rem .8rem; }
+  .tag { padding: 1.7rem .65rem .75rem; }
+  .tag:nth-child(3n+1), .tag:nth-child(3n+2) { rotate: 0deg; }
+  .tag:nth-child(odd) { rotate: -1deg; }
+  .tag:nth-child(even) { rotate: 1deg; }
+  .tag::before { width: 54px; height: 17px; margin-left: -27px; }
+  .tag__ribbon { top: 24px; right: 4px; font-size: .95rem; padding: 0 .45rem; }
+  .tag__art img { margin-bottom: .55rem; }
+  .tag__linea { font-size: .58rem; letter-spacing: .08em; }
+  .tag h3 { font-size: 1.4rem; }
+  .tag p { display: none; }
+  .tag__foot { flex-direction: column; align-items: stretch; gap: .5rem; margin-top: .4rem; padding-top: .55rem; }
+  .price { font-size: 1.5rem; }
+  .price small { font-size: .68rem; }
+  .tag__btns .mini--line { display: none; }
+  .tag__btns .mini--fill { flex: 1; padding: .5rem; font-size: .9rem; }
+
+  /* Pasos y testimonios: tarjetas deslizables de costado */
+  .steps, .notes { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; margin-inline: -16px; padding: 1.6rem 16px 1.2rem; scrollbar-width: none; }
+  .steps::-webkit-scrollbar, .notes::-webkit-scrollbar { display: none; }
+  .steps li, .note { flex: 0 0 76%; scroll-snap-align: center; }
+  .notes { padding-bottom: 3rem; }
+  .note { font-size: 1.35rem; }
+
+  /* Galería más compacta */
+  .gallery { gap: 1.4rem .9rem; }
+  .photo { padding: .5rem .5rem 2.2rem; }
+  .photo figcaption { font-size: 1.1rem; bottom: .5rem; }
+
+  /* WhatsApp: solo el sello */
+  .wa__label { display: none; }
+}
+@media (max-width: 560px) and (prefers-reduced-motion: reduce) {
+  .strip__inner { animation: none; flex-wrap: wrap; width: auto; justify-content: center; }
+  .strip__clone { display: none; }
 }
