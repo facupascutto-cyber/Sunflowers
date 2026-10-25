@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sunflowers · Texturas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body { font-family: system-ui, sans-serif; color: #26302e; background: #f4f1ea; display: grid; grid-template-columns: 340px 1fr; }
+    aside { height: 100vh; overflow-y: auto; background: #fff; border-right: 1px solid #ddd; padding: 14px 16px 120px; }
+    aside h1 { font: 700 30px "Caveat", cursive; color: #2b524f; margin: 0 0 4px; }
+    aside > p { margin: 0 0 14px; font-size: 14px; color: #555; }
+    fieldset { border: 0; padding: 0; margin: 0 0 18px; }
+    legend { font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #c9561f; margin-bottom: 8px; }
+    .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    label.opt { display: flex; flex-direction: column; gap: 4px; border: 2px solid #e4e0d6; border-radius: 8px; padding: 6px; cursor: pointer; font-size: 13px; line-height: 1.2; transition: border-color .15s; }
+    label.opt:hover { border-color: #b7c9c6; }
+    label.opt:has(input:checked) { border-color: #2b524f; background: #f1f6f5; }
+    label.opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .sw { height: 42px; border-radius: 4px; border: 1px solid rgba(0, 0, 0, .08); }
+    .tag-actual { font-size: 11px; color: #888; }
+    .extras label { display: flex; gap: 8px; align-items: center; font-size: 14px; padding: 5px 0; cursor: pointer; }
+    .resumen { position: fixed; left: 0; bottom: 0; width: 340px; background: #2b524f; color: #fff; padding: 12px 16px; font-size: 13px; line-height: 1.4; }
+    .resumen b { color: #fecf07; }
+    .resumen button { margin-top: 8px; width: 100%; font: 600 14px system-ui; padding: 8px; border: 0; border-radius: 6px; background: #fecf07; color: #2b524f; cursor: pointer; }
+    iframe { width: 100%; height: 100vh; border: 0; display: block; }
+    @media (max-width: 800px) {
+      body { grid-template-columns: 1fr; grid-template-rows: 46vh 54vh; }
+      aside { height: 46vh; padding-bottom: 140px; }
+      .resumen { width: 100%; }
+      iframe { height: 54vh; }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    <h1>texturas</h1>
+    <p>Elegí una opción de cada grupo y mirá el resultado a la derecha. Abajo queda tu elección para pasármela.</p>
+    <form id="form"></form>
+  </aside>
+  <iframe id="frame" src="../index.html" title="Catálogo con las texturas elegidas"></iframe>
+  <div class="resumen"><div id="resumen"></div><button id="copiar" type="button">Copiar mi elección</button></div>
+
+  <script>
+    // ---------- Generadores de SVG ----------
+    const uri = (svg) => `url("data:image/svg+xml,${encodeURIComponent(svg.replace(/\s+/g, " ").trim())}")`;
+    const noise = (size, freq, oct, matrix) => uri(`<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='${freq}' numOctaves='${oct}' stitchTiles='stitch'/><feColorMatrix values='${matrix}'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>`);
+    const brown = (a) => `0 0 0 0 .4 0 0 0 0 .3 0 0 0 0 .1 0 0 0 ${a} 0`;
+    const white = (a) => `0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 ${a} 0`;
+
+    const borde = (tipo, color) => {
+      let shape;
+      if (tipo === "ondas") shape = `<path fill='${color}' d='M0 10 L0 5 Q12.5 0 25 5 T50 5 T75 5 T100 5 T125 5 T150 5 T175 5 T200 5 L200 10 Z'/>`;
+      else if (tipo === "feston") { let c = ""; for (let x = 10; x < 200; x += 20) c += `<circle cx='${x}' cy='10' r='10' fill='${color}'/>`; shape = c; }
+      return uri(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'>${shape}</svg>`);
+    };
+
+    const trazo = (c, o) => `fill='none' stroke='${c}' stroke-opacity='${o}' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'`;
+    const ramita = (c, o) => uri(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 260'><g ${trazo(c, o)}>
+      <path d='M40 250 C 60 190, 90 130, 170 30'/>
+      <path d='M62 196 C 30 190, 18 168, 20 146 C 44 150, 60 170, 62 196 Z'/><path d='M62 196 C 48 180, 34 164, 22 148'/>
+      <path d='M84 152 C 92 120, 116 108, 138 112 C 132 136, 112 152, 84 152 Z'/><path d='M84 152 C 102 138, 118 124, 136 114'/>
+      <path d='M106 118 C 80 108, 72 84, 78 62 C 100 72, 110 94, 106 118 Z'/><path d='M106 118 C 96 98, 88 80, 80 64'/>
+      <path d='M136 74 C 146 52, 166 46, 186 52 C 176 72, 158 80, 136 74 Z'/><path d='M136 74 C 152 64, 168 58, 184 54'/></g></svg>`);
+    const girasol = (c, o) => {
+      let p = "";
+      for (let i = 0; i < 14; i++) {
+        const a = (i / 14) * Math.PI * 2, P = (r, d = 0) => `${(90 + Math.cos(a + d) * r).toFixed(1)} ${(80 + Math.sin(a + d) * r).toFixed(1)}`;
+        p += `<path d='M${P(26)} Q${P(44, .22)} ${P(56)} Q${P(44, -.22)} ${P(26)}'/>`;
+      }
+      return uri(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 250'><g ${trazo(c, o)}>${p}<circle cx='90' cy='80' r='22'/>
+        <path d='M90 136 C 92 170, 86 205, 92 248'/><path d='M91 190 C 110 172, 136 172, 150 182 C 132 198, 108 198, 91 190 Z'/>
+        <path d='M89 214 C 70 198, 44 200, 32 212 C 50 226, 74 224, 89 214 Z'/></g></svg>`);
+    };
+    const garabato = uri(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'><path d='M4 12 C 40 4, 70 18, 110 10 S 180 4, 220 12 S 280 14, 296 8' fill='none' stroke='#f28242' stroke-width='4' stroke-linecap='round'/></svg>`);
+
+    const PAPELES = ".tag, .photo, .steps li, .note, .chip, .btn--paper, .sheet, .drawer";
+    const BORDE_PSEUDO = ".strip::before, .strip::after";
+
+    // ---------- Opciones ----------
+    // css: "" = se mantiene lo que tiene el catálogo hoy
+    const GRUPOS = [
+      {
+        id: "fondo", nombre: "Fondo de la página", base: "#fbf0cf",
+        opciones: [
+          { nombre: "Liso", sw: "none", css: "body{background-image:none!important}" },
+          { nombre: "Grano fino suave", sw: noise(160, ".9", 3, brown(.12)), css: `body{background-image:${noise(160, ".9", 3, brown(.12))}!important;background-size:160px!important}` },
+          { nombre: "Papel reciclado", sw: `${noise(160, ".9", 3, brown(.26))}, ${noise(240, ".55", 2, "0 0 0 0 .45 0 0 0 0 .32 0 0 0 0 .12 0 0 0 4 -2.55")}`, css: `body{background-image:${noise(160, ".9", 3, brown(.26))}, ${noise(240, ".55", 2, "0 0 0 0 .45 0 0 0 0 .32 0 0 0 0 .12 0 0 0 4 -2.55")}!important;background-size:160px,240px!important}` },
+          { nombre: "Lino / tela", actual: true, sw: "repeating-linear-gradient(0deg, rgba(120,90,30,.08) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(120,90,30,.07) 0 1px, transparent 1px 4px)",
+            css: "" },
+          { nombre: "Acuarela", sw: "radial-gradient(circle 30px at 30% 40%, rgba(254,207,7,.45), transparent), radial-gradient(circle 26px at 75% 65%, rgba(242,130,66,.25), transparent), radial-gradient(circle 22px at 60% 20%, rgba(95,143,132,.25), transparent)",
+            css: `body{background-image:${noise(160, ".9", 3, brown(.08))}, radial-gradient(circle 380px at 30% 30%, rgba(254,207,7,.28), transparent), radial-gradient(circle 300px at 75% 70%, rgba(242,130,66,.13), transparent), radial-gradient(circle 220px at 70% 20%, rgba(95,143,132,.14), transparent)!important;background-size:160px, 1300px 1100px, 1300px 1100px, 1300px 1100px!important}` },
+          { nombre: "Cuaderno cuadriculado", sw: "linear-gradient(rgba(43,82,79,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(43,82,79,.12) 1px, transparent 1px)",
+            css: "body{background-image:linear-gradient(rgba(43,82,79,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(43,82,79,.08) 1px, transparent 1px)!important;background-size:28px 28px!important}", swSize: "10px 10px" },
+          { nombre: "Puntos", sw: "radial-gradient(rgba(43,82,79,.3) 1.2px, transparent 1.6px)", swSize: "9px 9px",
+            css: "body{background-image:radial-gradient(rgba(43,82,79,.16) 1.3px, transparent 1.7px)!important;background-size:22px 22px!important}" },
+          { nombre: "Kraft", base2: "#e2c799", sw: noise(160, ".85", 3, brown(.3)),
+            css: `body{background-color:#e6cc9f!important;background-image:${noise(160, ".85", 3, brown(.3))}!important;background-size:160px!important}.top{background:rgba(230,204,159,.94)!important}` },
+        ],
+      },
+      {
+        id: "papeles", nombre: "Etiquetas y polaroids", base: "#fffcf1",
+        opciones: [
+          { nombre: "Liso", sw: "none", css: `${PAPELES}{background-image:none!important}` },
+          { nombre: "Grano suave", sw: noise(140, ".85", 3, "0 0 0 0 .45 0 0 0 0 .35 0 0 0 0 .2 0 0 0 .13 0"), css: `${PAPELES}{background-image:${noise(140, ".85", 3, "0 0 0 0 .45 0 0 0 0 .35 0 0 0 0 .2 0 0 0 .13 0")}!important;background-size:140px!important}` },
+          { nombre: "Papel de acuarela", actual: true, sw: noise(180, ".45", 4, brown(.22)), css: "" },
+          { nombre: "Renglones de cuaderno", sw: "repeating-linear-gradient(transparent 0 9px, rgba(43,82,79,.18) 9px 10px)",
+            css: `.tag, .steps li, .note{background-image:repeating-linear-gradient(transparent 0 23px, rgba(43,82,79,.1) 23px 24px)!important}` },
+          { nombre: "Etiquetas kraft", base2: "#dcc093", sw: noise(140, ".85", 3, brown(.22)),
+            css: `.tag, .photo, .steps li{background-color:#dfc597!important;background-image:${noise(140, ".85", 3, brown(.22))}!important;background-size:140px!important}.tag p,.tag .price small{color:#3a2f22!important}` },
+        ],
+      },
+      {
+        id: "pizarra", nombre: "Pizarra (calendario y pie)", base: "#2b524f",
+        opciones: [
+          { nombre: "Lisa", sw: "none", css: ".board, .footer{background-image:none!important}" },
+          { nombre: "Tiza suave", sw: noise(220, ".75", 3, white(.09)), css: `.board, .footer{background-image:${noise(220, ".75", 3, white(.09))}!important;background-size:220px!important}` },
+          { nombre: "Tiza marcada", sw: `${noise(220, ".75", 3, white(.18))}`,
+            css: `.board, .footer{background-image:${noise(220, ".75", 3, white(.16))}, radial-gradient(circle 200px at 25% 40%, rgba(255,255,255,.1), transparent), radial-gradient(circle 160px at 70% 60%, rgba(255,255,255,.08), transparent)!important;background-size:220px, 700px 420px, 700px 420px!important}` },
+          { nombre: "Con marco de madera", sw: `repeating-linear-gradient(90deg, #7a5a36 0 10px, #6b4e2e 10px 12px, #86643d 12px 24px)`,
+            css: `.board{border-block:16px solid #7a5a36!important;border-image:repeating-linear-gradient(90deg, #7a5a36 0 18px, #6a4c2c 18px 21px, #88663f 21px 40px) 16!important}.footer{border-top:16px solid #7a5a36!important;border-image:repeating-linear-gradient(90deg, #7a5a36 0 18px, #6a4c2c 18px 21px, #88663f 21px 40px) 16!important}` },
+          { nombre: "Lino verde", actual: true, sw: "repeating-linear-gradient(0deg, rgba(255,255,255,.08) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 4px)", css: "" },
+        ],
+      },
+      {
+        id: "bordes", nombre: "Bordes de la franja y la pizarra",
+        opciones: [
+          { nombre: "Rectos", css: `${BORDE_PSEUDO}{display:none!important}` },
+          { nombre: "Papel rasgado", actual: true, css: "" },
+          { nombre: "Ondas", css: `${BORDE_PSEUDO}{background:${borde("ondas", "#fecf07")} repeat-x!important;background-size:120px 9px!important}
+              .board{border-block:0!important}.board::before,.board::after{content:"";position:absolute;left:0;right:0;height:10px;background:${borde("ondas", "#2b524f")} repeat-x;background-size:120px 10px}.board::before{top:-9px}.board::after{bottom:-9px;transform:scaleY(-1)}` },
+          { nombre: "Festón (puntilla)", css: `${BORDE_PSEUDO}{background:${borde("feston", "#fecf07")} repeat-x!important;background-size:36px 9px!important}
+              .board{border-block:0!important}.board::before,.board::after{content:"";position:absolute;left:0;right:0;height:10px;background:${borde("feston", "#2b524f")} repeat-x;background-size:36px 10px}.board::before{top:-9px}.board::after{bottom:-9px;transform:scaleY(-1)}` },
+          { nombre: "Costura punteada", css: `${BORDE_PSEUDO}{background:none!important;height:0!important;border-top:2px dashed rgba(43,82,79,.55)}.strip::before{top:7px!important}.strip::after{bottom:7px!important}
+              .board::before,.board::after{content:"";position:absolute;left:0;right:0;border-top:2px dashed rgba(254,207,7,.7)}.board::before{top:12px}.board::after{bottom:12px}` },
+        ],
+      },
+      {
+        id: "dibujos", nombre: "Dibujos a mano",
+        opciones: [
+          { nombre: "Ninguno", css: ".deco::before, .deco::after{display:none!important}" },
+          { nombre: "Ramitas y girasoles suaves", actual: true, css: "" },
+          { nombre: "Más dibujos y más marcados", css: `.deco--ramita-izq::before,.deco--ramita-der::after{background-image:${ramita("#2b524f", .35)}!important}.deco--girasol-der::after,.deco--girasol-izq::before{background-image:${girasol("#2b524f", .35)}!important}
+              .hero{position:relative}.hero::before,.hero::after{content:"";position:absolute;pointer-events:none;background-repeat:no-repeat;background-size:contain}
+              .hero::before{left:-20px;top:40px;width:200px;height:240px;background-image:${ramita("#5f8f84", .4)}}.hero::after{right:-10px;top:10px;width:150px;height:210px;background-image:${girasol("#f28242", .35)};rotate:12deg}
+              .board .wrap::before{content:"";position:absolute;right:-40px;top:-20px;width:140px;height:195px;background:${girasol("#fecf07", .4)} no-repeat center/contain;rotate:10deg}` },
+          { nombre: "Girasol grande de fondo", css: `body::after{content:"";position:fixed;right:-60px;bottom:-80px;width:520px;height:720px;z-index:-1;pointer-events:none;background:${girasol("#2b524f", .1)} no-repeat center/contain;rotate:-8deg}
+              body::before{content:"";position:fixed;left:-60px;top:80px;width:420px;height:500px;z-index:-1;pointer-events:none;background:${ramita("#2b524f", .1)} no-repeat center/contain}` },
+        ],
+      },
+    ];
+
+    const EXTRAS = [
+      { id: "cinta", nombre: "Cinta adhesiva en las etiquetas", css: `.tag::before{width:76px!important;height:22px!important;top:2px!important;margin-left:-38px!important;border-radius:2px!important;background:rgba(242,130,66,.55)!important;box-shadow:none!important;rotate:-4deg}
+          .tag:nth-child(even)::before{background:rgba(95,143,132,.5)!important;rotate:3deg}.steps li::before{content:"";position:absolute;top:-10px;right:18px;width:64px;height:20px;background:rgba(254,207,7,.7);rotate:6deg}` },
+      { id: "sombra", nombre: "Sombras más marcadas (papel despegado)", css: ".tag{filter:drop-shadow(0 14px 14px rgba(58,47,34,.32))!important}.photo,.steps li,.note{box-shadow:0 18px 26px -10px rgba(58,47,34,.55)!important}" },
+      { id: "fotos", nombre: "Fotos con borde irregular", css: ".tag__art img,.photo img{clip-path:polygon(1% 2%, 20% 0, 45% 1.5%, 70% 0, 99% 1%, 100% 25%, 98.5% 50%, 100% 78%, 99% 99%, 75% 100%, 50% 98.5%, 25% 100%, 0 99%, 1.5% 75%, 0 50%, 1% 25%)}" },
+      { id: "vineta", nombre: "Viñeta tostada en los bordes", css: "html::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:30;background:radial-gradient(ellipse at center, transparent 55%, rgba(150,100,20,.18) 100%)}" },
+      { id: "subrayado", nombre: "Subrayado a mano en los títulos", css: `.title h2{display:inline-block;padding-bottom:14px;background:${garabato} no-repeat bottom/100% 14px}` },
+      { id: "sellos", nombre: "Sellos en los precios", css: ".tag .price{border:2px dashed currentColor;padding:4px 8px 2px;rotate:-3deg;border-radius:4px}" },
+    ];
+
+    // ---------- UI ----------
+    const form = document.getElementById("form");
+    const frame = document.getElementById("frame");
+    const estado = Object.fromEntries(GRUPOS.map((g) => [g.id, g.opciones.findIndex((o) => o.actual)]));
+    const extras = new Set();
+
+    // Estado inicial desde el hash: #fondo=3&papeles=0&extras=cinta,fotos
+    new URLSearchParams(location.hash.slice(1)).forEach((v, k) => {
+      if (k === "extras") v.split(",").filter(Boolean).forEach((e) => extras.add(e));
+      else if (k in estado) estado[k] = Number(v);
+    });
+
+    form.innerHTML = GRUPOS.map((g) => `
+      <fieldset><legend>${g.nombre}</legend><div class="opts">
+        ${g.opciones.map((o, i) => `<label class="opt"><input type="radio" name="${g.id}" value="${i}" ${estado[g.id] === i ? "checked" : ""}>
+          ${g.base ? `<span class="sw" style="background-color:${o.base2 || g.base};background-image:${o.sw};background-size:${o.swSize || "auto"}"></span>` : ""}
+          <span>${i + 1}. ${o.nombre}${o.actual ? ' <span class="tag-actual">(actual)</span>' : ""}</span></label>`).join("")}
+      </div></fieldset>`).join("") + `
+      <fieldset class="extras"><legend>Detalles extra (podés marcar varios)</legend><p style="font-size:12px;color:#888;margin:0 0 6px">Cinta, sombras, fotos irregulares y subrayado ya están incorporados al catálogo.</p>
+        ${EXTRAS.map((e) => `<label><input type="checkbox" name="extra" value="${e.id}" ${extras.has(e.id) ? "checked" : ""}> ${e.nombre}</label>`).join("")}
+      </fieldset>`;
+
+    form.addEventListener("change", (e) => {
+      if (e.target.name === "extra") e.target.checked ? extras.add(e.target.value) : extras.delete(e.target.value);
+      else estado[e.target.name] = Number(e.target.value);
+      aplicar();
+    });
+
+    function textoEleccion() {
+      const partes = GRUPOS.map((g) => `${g.nombre}: ${estado[g.id] + 1}. ${g.opciones[estado[g.id]].nombre}`);
+      partes.push(`Extras: ${extras.size ? EXTRAS.filter((e) => extras.has(e.id)).map((e) => e.nombre).join(", ") : "ninguno"}`);
+      return partes;
+    }
+
+    function aplicar() {
+      const css = GRUPOS.map((g) => g.opciones[estado[g.id]].css).join("\n") + "\n" + EXTRAS.filter((e) => extras.has(e.id)).map((e) => e.css).join("\n");
+      const doc = frame.contentDocument;
+      if (doc && doc.head) {
+        let st = doc.getElementById("texturas-prueba");
+        if (!st) { st = doc.createElement("style"); st.id = "texturas-prueba"; doc.head.appendChild(st); }
+        st.textContent = css;
+      }
+      document.getElementById("resumen").innerHTML = textoEleccion().map((t) => t.replace(/^([^:]+):/, "<b>$1:</b>")).join("<br>");
+      const h = new URLSearchParams(estado);
+      if (extras.size) h.set("extras", [...extras].join(","));
+      history.replaceState(null, "", "#" + h.toString());
+    }
+
+    document.getElementById("copiar").addEventListener("click", async (e) => {
+      try { await navigator.clipboard.writeText(textoEleccion().join("\n")); e.target.textContent = "¡Copiado! Pegámelo en el chat"; }
+      catch { e.target.textContent = "No se pudo copiar: escribime los números"; }
+      setTimeout(() => (e.target.textContent = "Copiar mi elección"), 2500);
+    });
+
+    frame.addEventListener("load", aplicar);
+    aplicar();
+  </script>
+</body>
+</html>

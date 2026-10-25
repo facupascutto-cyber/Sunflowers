@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sunflowers · Editorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f1e3; --ink: #1f2a1c; --green: #34502f; --sage: #a9bb94;
+      --sun: #f2b01e; --orange: #e0782c; --line: rgba(31, 42, 28, .18);
+      --serif: "Cormorant Garamond", Georgia, serif; --sans: "Work Sans", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    .wrap { width: min(1240px, 100% - 32px); margin-inline: auto; }
+
+    header { border-bottom: 1px solid var(--line); }
+    .top { display: flex; justify-content: space-between; align-items: center; height: 76px; font-size: .85rem; letter-spacing: .14em; text-transform: uppercase; }
+    .top nav { display: flex; gap: 2rem; }
+    .brand { font-family: var(--serif); font-size: 1.9rem; letter-spacing: .02em; text-transform: none; font-weight: 600; color: var(--green); }
+    .bag { display: flex; gap: .4rem; align-items: center; }
+    .bag b { background: var(--sun); border-radius: 999px; padding: 0 .55rem; color: var(--ink); }
+
+    .hero { display: grid; grid-template-columns: 1.4fr 1fr; border-bottom: 1px solid var(--line); }
+    .hero__text { padding: 5rem 3rem 4rem 0; border-right: 1px solid var(--line); }
+    .issue { font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; color: var(--orange); }
+    h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(3.2rem, 8vw, 7.5rem); line-height: .92; letter-spacing: -.02em; margin: 1.5rem 0; color: var(--green); }
+    h1 i { color: var(--orange); }
+    .hero__text p { max-width: 44ch; font-size: 1.1rem; }
+    .cta { display: inline-block; margin-top: 2rem; padding-bottom: .3rem; border-bottom: 2px solid var(--orange); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: .85rem; }
+    .hero__art { background: var(--sage); display: grid; place-items: center; padding: 2rem; position: relative; }
+    .hero__art svg { width: 100%; max-width: 420px; }
+    .hero__art figcaption { position: absolute; bottom: 1rem; left: 1.5rem; font-family: var(--serif); font-style: italic; font-size: 1.1rem; }
+
+    .ticker { overflow: hidden; border-bottom: 1px solid var(--line); background: var(--green); color: var(--bg); }
+    .ticker div { display: flex; gap: 3rem; padding: 1rem 0; white-space: nowrap; animation: scroll 30s linear infinite; font-family: var(--serif); font-size: 1.6rem; font-style: italic; }
+    .ticker span::after { content: "✺"; color: var(--sun); margin-left: 3rem; font-style: normal; }
+    @keyframes scroll { to { transform: translateX(-50%); } }
+
+    section { padding: 6rem 0; }
+    .head { display: flex; justify-content: space-between; align-items: end; gap: 2rem; border-bottom: 1px solid var(--line); padding-bottom: 1.5rem; margin-bottom: 3rem; }
+    h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; color: var(--green); }
+    .head p { max-width: 38ch; color: #5a5f4f; }
+
+    .feature { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 6rem; }
+    .feature:nth-child(even) .feature__art { order: 2; }
+    .feature__art { aspect-ratio: 4/5; display: grid; place-items: center; padding: 2rem; }
+    .feature__art svg { width: 100%; }
+    .num { font-family: var(--serif); font-size: 5rem; line-height: 1; color: var(--sun); }
+    .feature h3 { font-family: var(--serif); font-weight: 500; font-size: 2.8rem; color: var(--green); margin: .5rem 0 1rem; }
+    .feature p { font-size: 1.1rem; max-width: 40ch; }
+    .buy { display: flex; align-items: center; gap: 1.5rem; margin-top: 2rem; }
+    .buy strong { font-family: var(--serif); font-size: 2rem; }
+    .btn { padding: .9rem 1.6rem; background: var(--green); color: var(--bg); letter-spacing: .1em; text-transform: uppercase; font-size: .8rem; font-weight: 600; transition: background .2s; }
+    .btn:hover { background: var(--orange); }
+
+    .list { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .item { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1.5rem; display: flex; flex-direction: column; gap: .4rem; transition: background .3s; }
+    .item:hover { background: #fff8e6; }
+    .item svg { width: 70%; margin: 0 auto 1rem; }
+    .item h4 { font-family: var(--serif); font-size: 1.6rem; font-weight: 500; }
+    .item .row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+    .item .add { border-bottom: 1px solid currentColor; font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; }
+
+    .b2b { background: var(--green); color: var(--bg); }
+    .b2b h2 { color: var(--bg); }
+    .b2b .head { border-color: rgba(247, 241, 227, .25); }
+    .b2b .head p { color: var(--sage); }
+    table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+    th, td { text-align: left; padding: 1.2rem .5rem; border-bottom: 1px solid rgba(247, 241, 227, .2); }
+    th { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--sun); font-weight: 500; }
+    td:first-child { font-family: var(--serif); font-size: 1.5rem; }
+    .b2b .btn { background: var(--sun); color: var(--ink); margin-top: 2.5rem; display: inline-block; }
+
+    footer { padding: 3rem 0 6rem; font-size: .9rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+
+    @media (max-width: 860px) {
+      .top nav { display: none; }
+      .hero, .feature { grid-template-columns: 1fr; }
+      .hero__text { border-right: 0; padding: 3rem 0; }
+      .feature:nth-child(even) .feature__art { order: 0; }
+      .feature { gap: 1.5rem; margin-bottom: 4rem; }
+      .list { grid-template-columns: 1fr 1fr; }
+      .head { flex-direction: column; align-items: start; }
+      table { font-size: .9rem; }
+      td:first-child { font-size: 1.2rem; }
+    }
+    @media (max-width: 520px) { .list { grid-template-columns: 1fr; } th:nth-child(3), td:nth-child(3) { display: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <nav><a href="#coleccion">Colección</a><a href="#tienda">Tienda</a></nav>
+      <a href="#" class="brand">Sunflowers</a>
+      <nav><a href="#empresas">Empresas</a><a href="index.html#carrito" class="bag">Bolsa <b data-cart-count>0</b></a></nav>
+    </div>
+  </header>
+
+  <div class="wrap hero">
+    <div class="hero__text">
+      <p class="issue">Colección otoño · N.º 07</p>
+      <h1>El campo<br>llega a la <i>ciudad</i></h1>
+      <p>Una florería de autor en Buenos Aires. Flores de estación, elegidas cada mañana y armadas a mano para casas, oficinas y celebraciones.</p>
+      <a href="#coleccion" class="cta">Ver la colección →</a>
+    </div>
+    <figure class="hero__art" id="heroArt"><figcaption>Girasoles de Escobar, temporada 2026</figcaption></figure>
+  </div>
+
+  <div class="ticker"><div id="ticker"></div></div>
+
+  <section id="coleccion">
+    <div class="wrap">
+      <div class="head"><h2>Destacados<br>de la semana</h2><p>Tres diseños que nuestro taller eligió para esta temporada.</p></div>
+      <div id="features"></div>
+    </div>
+  </section>
+
+  <section id="tienda" style="padding-top:0">
+    <div class="wrap">
+      <div class="head"><h2>Toda la tienda</h2><p>Envíos en el día en CABA para pedidos antes de las 13 hs.</p></div>
+      <div class="list" id="list"></div>
+    </div>
+  </section>
+
+  <section class="b2b" id="empresas">
+    <div class="wrap">
+      <div class="head"><h2>Catálogo<br>corporativo</h2><p>Servicios florales para empresas, con facturación mensual y ejecutivo de cuenta.</p></div>
+      <table>
+        <thead><tr><th>Servicio</th><th>Frecuencia</th><th>Incluye</th><th>Desde</th></tr></thead>
+        <tbody>
+          <tr><td>Recepción</td><td>Semanal</td><td>1 arreglo alto + recambio</td><td>$85.000/mes</td></tr>
+          <tr><td>Oficina completa</td><td>Semanal</td><td>Recepción + 6 puestos + salas</td><td>$190.000/mes</td></tr>
+          <tr><td>Regalos</td><td>Por pedido</td><td>Ramo o caja + tarjeta con logo</td><td>$22.000/u</td></tr>
+          <tr><td>Eventos</td><td>A medida</td><td>Diseño, montaje y desmontaje</td><td>Cotización</td></tr>
+        </tbody>
+      </table>
+      <a href="index.html#empresas" class="btn">Solicitar propuesta</a>
+    </div>
+  </section>
+
+  <footer class="wrap"><span>Sunflowers · Palermo, Buenos Aires</span><span>@sunflowers.ba</span></footer>
+
+  <script src="js/flowers.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/demo.js"></script>
+  <script>
+    document.getElementById("heroArt").insertAdjacentHTML("afterbegin", Flowers.bouquet(PRODUCTS[1].art));
+
+    const words = ["Girasoles", "Rosas", "Tulipanes", "Margaritas", "Eucalipto", "Flores silvestres"];
+    document.getElementById("ticker").innerHTML = [...words, ...words].map((w) => `<span>${w}</span>`).join("");
+
+    const featured = [PRODUCTS[0], PRODUCTS[3], PRODUCTS[6]];
+    const tints = ["#fde9b3", "#e3ead8", "#f8dcc4"];
+    document.getElementById("features").innerHTML = featured.map((p, i) => `
+      <article class="feature">
+        <div class="feature__art" style="background:${tints[i]}">${Flowers.bouquet({ ...p.art, bg: null })}</div>
+        <div>
+          <span class="num">0${i + 1}</span>
+          <h3>${p.name}</h3>
+          <p>${p.desc}</p>
+          <div class="buy"><strong>${Demo.money(p.price)}</strong><button class="btn" data-add="${p.id}">Agregar</button></div>
+        </div>
+      </article>`).join("");
+
+    document.getElementById("list").innerHTML = PRODUCTS.map((p) => `
+      <div class="item">
+        ${Flowers.bouquet(p.art)}
+        <small style="letter-spacing:.12em;text-transform:uppercase;color:#7d8a6c">${p.category}</small>
+        <h4>${p.name}</h4>
+        <div class="row"><span>${Demo.money(p.price)}</span><button class="add" data-add="${p.id}">Agregar +</button></div>
+      </div>`).join("");
+  </script>
+</body>
+</html>

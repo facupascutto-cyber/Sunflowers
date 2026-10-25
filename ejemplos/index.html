@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sunflowers · Florería en Buenos Aires</title>
+  <meta name="description" content="Florería en Buenos Aires. Ramos, arreglos y flores para empresas, eventos y regalos corporativos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav__inner">
+      <a href="#inicio" class="logo">
+        <span class="logo__mark" data-flower="girasol-mini"></span>
+        Sunflowers
+      </a>
+      <nav class="nav__links" id="navLinks">
+        <a href="#tienda">Tienda</a>
+        <a href="#empresas">Empresas</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="nav__actions">
+        <button class="cart-btn" id="cartOpen" aria-label="Abrir carrito">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1.2 11.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.8L6 7Z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+          <span class="cart-btn__count" id="cartCount">0</span>
+        </button>
+        <button class="menu-btn" id="menuBtn" aria-label="Menú">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <p class="eyebrow">Florería de estación · Buenos Aires</p>
+          <h1>Flores que <em>abrazan</em> cada espacio</h1>
+          <p class="lead">Ramos y arreglos armados a mano con flores frescas de productores locales. Para regalar, para tu casa o para que tu empresa florezca todas las semanas.</p>
+          <div class="hero__cta">
+            <a href="#tienda" class="btn btn--primary">Comprar flores</a>
+            <a href="#empresas" class="btn btn--ghost">Soy empresa</a>
+          </div>
+          <ul class="hero__badges">
+            <li>🌻 Envío en el día en CABA</li>
+            <li>🌿 Flores de productores locales</li>
+            <li>🧡 Armado artesanal</li>
+          </ul>
+        </div>
+        <div class="hero__art" data-flower="hero"></div>
+      </div>
+    </section>
+
+    <!-- TIENDA -->
+    <section class="section" id="tienda">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Tienda online</p>
+          <h2>Elegí tu ramo</h2>
+          <p class="muted">Todos nuestros diseños se arman el mismo día de la entrega.</p>
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <!-- EMPRESAS -->
+    <section class="section section--green" id="empresas">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow eyebrow--light">Catálogo para empresas</p>
+          <h2>Flores para tu empresa</h2>
+          <p>Ambientamos oficinas, recepciones, eventos y regalos corporativos con un servicio a medida y facturación mensual.</p>
+        </div>
+
+        <div class="plans" id="plans"></div>
+
+        <div class="b2b">
+          <div class="b2b__info">
+            <h3>Pedí tu propuesta</h3>
+            <p>Contanos qué necesitás y te enviamos un catálogo personalizado con presupuesto en menos de 24 hs.</p>
+            <ul class="checklist">
+              <li>Factura A / B y pago a 30 días</li>
+              <li>Ejecutivo de cuenta dedicado</li>
+              <li>Entregas programadas en CABA y GBA</li>
+              <li>Tarjetas personalizadas con tu marca</li>
+            </ul>
+          </div>
+          <form class="form b2b__form" id="b2bForm">
+            <div class="form__row">
+              <label>Empresa<input name="empresa" required placeholder="Nombre de la empresa"></label>
+              <label>CUIT<input name="cuit" placeholder="30-12345678-9"></label>
+            </div>
+            <div class="form__row">
+              <label>Contacto<input name="contacto" required placeholder="Nombre y apellido"></label>
+              <label>Email<input name="email" type="email" required placeholder="tu@empresa.com"></label>
+            </div>
+            <label>¿Qué necesitás?
+              <select name="servicio">
+                <option>Suscripción semanal para oficina</option>
+                <option>Evento corporativo</option>
+                <option>Regalos empresariales</option>
+                <option>Otro</option>
+              </select>
+            </label>
+            <label>Mensaje<textarea name="mensaje" rows="3" placeholder="Cantidad de espacios, fechas, presupuesto estimado…"></textarea></label>
+            <button class="btn btn--sun" type="submit">Solicitar propuesta</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section class="section" id="nosotros">
+      <div class="container about">
+        <div class="about__art" data-flower="about"></div>
+        <div>
+          <p class="eyebrow">Nuestra historia</p>
+          <h2>Un taller de flores en el corazón de Buenos Aires</h2>
+          <p class="lead">Sunflowers nació de las ganas de llevar algo de campo a la ciudad. Trabajamos con flores de estación, compramos a productores del cinturón verde y armamos cada ramo a mano, sin apuro.</p>
+          <div class="stats">
+            <div><strong>+2.500</strong><span>ramos entregados</span></div>
+            <div><strong>40</strong><span>empresas que florecen</span></div>
+            <div><strong>100%</strong><span>armado artesanal</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="section section--cream">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Lo que dicen</p>
+          <h2>Clientes felices</h2>
+        </div>
+        <div class="quotes">
+          <blockquote><p>“La recepción cambió por completo. Cada lunes llegan flores nuevas y el equipo lo espera.”</p><cite>Lucía M. · Estudio de arquitectura, Palermo</cite></blockquote>
+          <blockquote><p>“Pedí un ramo a las 11 y a las 3 ya estaba en la casa de mi mamá. Hermoso.”</p><cite>Martín G. · Caballito</cite></blockquote>
+          <blockquote><p>“Nos armaron 120 regalos de fin de año con tarjeta de la marca. Impecable.”</p><cite>Carla R. · Agencia digital, Núñez</cite></blockquote>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contacto">
+    <div class="container footer__inner">
+      <div>
+        <a href="#inicio" class="logo logo--light"><span class="logo__mark" data-flower="girasol-mini"></span>Sunflowers</a>
+        <p>Florería artesanal en Buenos Aires.</p>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <p>Palermo, CABA<br>Lun a Sáb · 9 a 19 hs<br>hola@sunflowers.com.ar<br>+54 9 11 0000-0000</p>
+      </div>
+      <div>
+        <h4>Seguinos</h4>
+        <p>Instagram · @sunflowers.ba<br>WhatsApp</p>
+      </div>
+    </div>
+    <p class="footer__legal container">© 2026 Sunflowers · Sitio de ejemplo</p>
+  </footer>
+
+  <!-- CARRITO -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="drawer" aria-label="Carrito">
+    <div class="drawer__head">
+      <h3>Tu carrito</h3>
+      <button class="icon-btn" id="cartClose" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="drawer__body" id="cartItems"></div>
+    <div class="drawer__foot">
+      <div class="drawer__total"><span>Total</span><strong id="cartTotal">$0</strong></div>
+      <button class="btn btn--primary btn--block" id="checkoutBtn">Finalizar compra</button>
+    </div>
+  </aside>
+
+  <!-- CHECKOUT -->
+  <div class="modal" id="checkoutModal" role="dialog" aria-modal="true">
+    <div class="modal__card">
+      <button class="icon-btn modal__close" data-close aria-label="Cerrar">✕</button>
+      <h3>Datos de entrega</h3>
+      <form class="form" id="checkoutForm">
+        <div class="form__row">
+          <label>Nombre<input name="nombre" required></label>
+          <label>Teléfono<input name="tel" required></label>
+        </div>
+        <label>Dirección de entrega<input name="direccion" required placeholder="Calle, número, piso"></label>
+        <div class="form__row">
+          <label>Barrio<input name="barrio" required placeholder="Palermo"></label>
+          <label>Fecha<input name="fecha" type="date" required></label>
+        </div>
+        <label>Mensaje para la tarjeta<textarea name="tarjeta" rows="2" placeholder="¡Feliz cumple!"></textarea></label>
+        <div class="checkout__total"><span>Total a pagar</span><strong id="checkoutTotal">$0</strong></div>
+        <button class="btn btn--primary btn--block" type="submit">Pagar (demo)</button>
+        <p class="muted small">Demo: acá se conectaría Mercado Pago.</p>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>window.SUNFLOWERS_MAIN = true;</script>
+  <script src="js/demo.js"></script>
+  <script src="js/flowers.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

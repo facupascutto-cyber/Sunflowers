@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sunflowers · Atardecer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff8ee; --ink: #24301f; --green: #2f4a2c; --leaf: #6d8f4e; --mint: #e4edd8;
+      --sun: #ffc23a; --orange: #f08a32; --coral: #e8603c; --r: 28px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: "Outfit", system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.55; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    .wrap { width: min(1200px, 100% - 32px); margin-inline: auto; }
+
+    header { position: sticky; top: 12px; z-index: 30; margin-top: 12px; }
+    .pill { display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, .8); backdrop-filter: blur(12px); border-radius: 999px; padding: .5rem .5rem .5rem 1.4rem; box-shadow: 0 6px 24px -10px rgba(47, 74, 44, .3); }
+    .logo { font-weight: 800; font-size: 1.35rem; letter-spacing: -.02em; color: var(--green); display: flex; align-items: center; gap: .4rem; }
+    .logo span { width: 30px; display: block; }
+    .pill nav { display: flex; gap: 1.6rem; font-weight: 500; }
+    .cart { background: var(--green); color: #fff; border-radius: 999px; padding: .65rem 1.2rem; font-weight: 700; }
+
+    .hero { margin-top: 1.5rem; border-radius: 40px; padding: 5rem 3rem 0; overflow: hidden; position: relative;
+      background: radial-gradient(circle at 80% 30%, #ffe08a 0, transparent 45%), linear-gradient(160deg, #ffcb52 0%, #f39a3d 55%, #e8603c 100%); color: #fff; }
+    .hero__grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: end; }
+    .hero h1 { font-size: clamp(3rem, 7.5vw, 6.2rem); line-height: .95; font-weight: 800; letter-spacing: -.04em; color: #fff; }
+    .hero h1 span { color: var(--green); }
+    .hero p { font-size: 1.2rem; max-width: 40ch; margin: 1.5rem 0 2rem; opacity: .95; }
+    .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; padding-bottom: 4rem; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: 1rem 1.6rem; border-radius: 999px; font-weight: 700; transition: transform .2s; }
+    .btn:hover { transform: scale(1.04); }
+    .btn--dark { background: var(--green); color: #fff; }
+    .btn--light { background: #fff; color: var(--green); }
+    .hero__art svg { width: 100%; max-width: 480px; margin: 0 auto; display: block; animation: float 6s ease-in-out infinite; }
+    @keyframes float { 50% { transform: translateY(-12px); } }
+
+    .bento { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 180px; gap: 1rem; margin: 1rem 0 5rem; }
+    .tile { border-radius: var(--r); padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative; }
+    .tile strong { font-size: 2.6rem; font-weight: 800; line-height: 1; letter-spacing: -.03em; }
+    .tile--a { background: var(--green); color: #fff; grid-row: span 2; }
+    .tile--a svg { width: 85%; align-self: center; }
+    .tile--b { background: var(--mint); }
+    .tile--c { background: var(--sun); }
+    .tile--d { background: #fde3cf; grid-column: span 2; flex-direction: row; align-items: center; gap: 1rem; }
+    .tile--d svg { width: 140px; flex-shrink: 0; }
+    .tile h3 { font-size: 1.4rem; font-weight: 700; line-height: 1.15; }
+
+    .shop-head { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem; }
+    h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--green); }
+    .toggle { display: inline-flex; background: var(--mint); border-radius: 999px; padding: 5px; }
+    .toggle button { padding: .7rem 1.4rem; border-radius: 999px; font-weight: 700; color: var(--green); transition: background .25s, color .25s; }
+    .toggle button.on { background: var(--green); color: #fff; }
+    .note { background: var(--sun); border-radius: 18px; padding: 1rem 1.3rem; margin-bottom: 1.5rem; font-weight: 500; display: none; }
+    .b2b-mode .note { display: block; }
+
+    .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; padding-bottom: 6rem; }
+    .p { background: #fff; border-radius: var(--r); padding: 1rem; transition: transform .25s, box-shadow .25s; }
+    .p:hover { transform: translateY(-5px); box-shadow: 0 18px 36px -18px rgba(240, 138, 50, .6); }
+    .p__art { border-radius: 20px; background: var(--mint); padding: .5rem; }
+    .p:nth-child(3n+2) .p__art { background: #ffeec2; }
+    .p:nth-child(3n) .p__art { background: #fde3cf; }
+    .p__art svg { width: 100%; }
+    .p__info { padding: 1rem .4rem .2rem; display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; align-items: center; }
+    .p h3 { font-size: 1.25rem; font-weight: 700; }
+    .p small { color: #7a8170; grid-column: 1; }
+    .p .price { font-size: 1.3rem; font-weight: 800; color: var(--coral); grid-row: 1; grid-column: 2; text-align: right; }
+    .p .unit { grid-column: 2; font-size: .8rem; color: #7a8170; text-align: right; }
+    .p button { grid-column: 1 / -1; margin-top: .8rem; background: var(--ink); color: #fff; border-radius: 999px; padding: .8rem; font-weight: 700; transition: background .2s; }
+    .p button:hover { background: var(--orange); }
+
+    .cta { background: var(--green); color: #fff; border-radius: 40px; padding: 4rem 3rem; display: grid; grid-template-columns: 1.3fr 1fr; gap: 2rem; align-items: center; margin-bottom: 6rem; }
+    .cta h2 { color: #fff; }
+    .cta h2 span { color: var(--sun); }
+    .cta ul { list-style: none; display: grid; gap: .8rem; font-size: 1.1rem; }
+    .cta li::before { content: "●"; color: var(--sun); margin-right: .6rem; }
+    .cta .btn { background: var(--sun); color: var(--green); margin-top: 1.5rem; }
+
+    @media (max-width: 900px) {
+      .pill nav { display: none; }
+      .hero { padding: 3rem 1.5rem 0; }
+      .hero__grid, .cta { grid-template-columns: 1fr; }
+      .bento { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
+      .tile--a { grid-row: span 2; grid-column: span 2; }
+      .tile--a svg { width: 50%; }
+      .cta { padding: 3rem 1.5rem; }
+    }
+    @media (max-width: 520px) { .tile--d svg { width: 90px; } .tile strong { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="pill">
+      <a href="#" class="logo"><span id="logoMark"></span>sunflowers</a>
+      <nav><a href="#tienda">Tienda</a><a href="#empresas">Empresas</a><a href="#tienda" data-mode="b2b">Catálogo B2B</a></nav>
+      <a href="index.html#carrito" class="cart">Carrito · <span data-cart-count>0</span></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero__grid">
+        <div>
+          <h1>Flores que <span>encienden</span> tu día.</h1>
+          <p>Ramos de estación con entrega en el día en CABA. Y un catálogo pensado para que tu empresa florezca todo el año.</p>
+          <div class="hero__cta">
+            <a href="#tienda" class="btn btn--dark">Comprar ahora →</a>
+            <a href="#tienda" class="btn btn--light" data-mode="b2b">Ver catálogo empresas</a>
+          </div>
+        </div>
+        <div class="hero__art" id="heroArt"></div>
+      </div>
+    </section>
+
+    <section class="bento">
+      <div class="tile tile--a"><h3>El favorito de la casa: Sol de Campo</h3><span id="tileArt"></span></div>
+      <div class="tile tile--b"><strong>3 hs</strong><span>Entrega promedio en CABA</span></div>
+      <div class="tile tile--c"><strong>-15%</strong><span>Pedidos corporativos de 10+ unidades</span></div>
+      <div class="tile tile--d"><span id="tileArt2"></span><div><h3>Suscripción para oficinas</h3><span>Flores nuevas cada lunes, sin pensar en nada.</span></div></div>
+    </section>
+
+    <section id="tienda">
+      <div class="shop-head">
+        <h2>La tienda</h2>
+        <div class="toggle" role="tablist">
+          <button class="on" data-mode="b2c">Personas</button>
+          <button data-mode="b2b">Empresas</button>
+        </div>
+      </div>
+      <p class="note">💼 Modo empresas: precios por unidad para pedidos de 10 o más, con factura A y pago a 30 días.</p>
+      <div class="products" id="products"></div>
+    </section>
+
+    <section class="cta" id="empresas">
+      <div>
+        <h2>¿Tu empresa<br>necesita <span>flores</span>?</h2>
+        <a href="index.html#empresas" class="btn">Hablar con un asesor</a>
+      </div>
+      <ul>
+        <li>Suscripciones semanales para oficinas</li>
+        <li>Regalos con tarjeta de tu marca</li>
+        <li>Ambientación de eventos corporativos</li>
+        <li>Factura A y cuenta corriente</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="js/flowers.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/demo.js"></script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    $("logoMark").innerHTML = Flowers.single("sunflower");
+    $("heroArt").innerHTML = Flowers.bouquet({ ...PRODUCTS[1].art, bg: "rgba(255,255,255,.25)" });
+    $("tileArt").innerHTML = Flowers.bouquet({ ...PRODUCTS[0].art, bg: null });
+    $("tileArt2").innerHTML = Flowers.bouquet({ ...PRODUCTS[4].art, bg: null });
+
+    let mode = "b2c";
+    function render() {
+      document.body.classList.toggle("b2b-mode", mode === "b2b");
+      document.querySelectorAll(".toggle button").forEach((b) => b.classList.toggle("on", b.dataset.mode === mode));
+      $("products").innerHTML = PRODUCTS.map((p) => {
+        const b2b = mode === "b2b";
+        const price = b2b ? Math.round(p.price * 0.85 / 100) * 100 : p.price;
+        return `<article class="p">
+          <div class="p__art">${Flowers.bouquet({ ...p.art, bg: null })}</div>
+          <div class="p__info">
+            <h3>${p.name}</h3>
+            <span class="price">${Demo.money(price)}</span>
+            <small>${p.category}</small>
+            <span class="unit">${b2b ? "por unidad · mín. 10" : ""}</span>
+            <button data-${b2b ? "quote" : "add"}="${p.id}">${b2b ? "Sumar a cotización" : "Agregar al carrito"}</button>
+          </div>
+        </article>`;
+      }).join("");
+    }
+    document.addEventListener("click", (e) => {
+      const m = e.target.closest("[data-mode]");
+      if (m) { mode = m.dataset.mode; render(); }
+      const q = e.target.closest("[data-quote]");
+      if (q) Demo.toast(`💼 ${PRODUCTS.find((p) => p.id === q.dataset.quote).name} sumado a tu cotización`);
+    });
+    render();
+  </script>
+</body>
+</html>

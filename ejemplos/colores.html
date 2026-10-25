@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sunflowers · Paletas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: #f4f1ea; color: #26302e; }
+    .bar { position: sticky; top: 0; z-index: 2; background: #fff; border-bottom: 1px solid #ddd; padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .bar h1 { font: 700 26px "Caveat", cursive; margin: 0 12px 0 0; color: #2b524f; }
+    .bar button { font: inherit; font-size: 14px; border: 2px solid #26302e; background: #fff; padding: 6px 12px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    .bar button.on { background: #26302e; color: #fff; }
+    .dots { display: inline-flex; }
+    .dots i { width: 14px; height: 14px; border-radius: 50%; margin-left: -4px; border: 1.5px solid #fff; }
+    .info { padding: 10px 16px; font-size: 15px; background: #fff; border-bottom: 1px solid #ddd; }
+    .info b { color: #c9561f; }
+    iframe { display: block; width: 100%; height: calc(100vh - 120px); border: 0; }
+  </style>
+</head>
+<body>
+  <div class="bar" id="bar"><h1>paletas</h1></div>
+  <div class="info" id="info"></div>
+  <iframe id="frame" src="../index.html" title="Catálogo con la paleta elegida"></iframe>
+
+  <script>
+    // Los 3 colores del logo (#2b524f, #fecf07, #f28242) se mantienen en todas; cambia lo que los rodea.
+    const PALETAS = [
+      {
+        nombre: "Actual",
+        desc: "Kraft beige con verde petróleo. Cálida, pero el beige y el marrón de la madera apagan un poco los colores del logo.",
+        vars: {},
+        css: "",
+      },
+      {
+        nombre: "1 · Crema luminosa",
+        desc: "Fondo crema más claro y bordes verde petróleo en lugar de madera. <b>Más aire y los colores del logo resaltan más</b>; sigue siendo cálida.",
+        vars: { "--kraft": "#f5ecd9", "--kraft-dark": "#e2cfa6", "--paper": "#fffaf0", "--wood": "#1f3e3b", "--rust": "#d0592a" },
+        css: "",
+      },
+      {
+        nombre: "2 · Salvia",
+        desc: "Fondo verde salvia muy suave que acompaña al petróleo del logo. <b>Fresca, botánica, de vivero</b>. El amarillo y el naranja quedan como acentos.",
+        vars: { "--kraft": "#e6eadb", "--kraft-dark": "#c3cdb0", "--paper": "#fbfaf2", "--wood": "#2b524f", "--leaf": "#4f7f6f", "--rust": "#c9561f" },
+        css: ".top{background:rgba(230,234,219,.92)!important}",
+      },
+      {
+        nombre: "3 · Girasol (aplicada)",
+        desc: "El amarillo del logo pasa a ser protagonista: franja y detalles en amarillo con texto petróleo. <b>Muy alegre y reconocible</b>, la más fiel al logo.",
+        vars: { "--kraft": "#fbf0cf", "--kraft-dark": "#ecd391", "--paper": "#fffcf1", "--wood": "#fecf07", "--rust": "#d0592a" },
+        css: ".strip{background:#fecf07!important;color:#2b524f!important}.strip span::first-letter{color:#f28242!important}.top{background:rgba(251,240,207,.94)!important}.board .title h2{color:#fecf07}",
+      },
+      {
+        nombre: "4 · Terracota",
+        desc: "Fondo durazno y bordes terracota. <b>La más cálida y otoñal</b>, con el naranja del logo más presente.",
+        vars: { "--kraft": "#f3e0cd", "--kraft-dark": "#dfbf9f", "--paper": "#fff7ee", "--wood": "#c9663a", "--rust": "#b94e1c" },
+        css: ".top{background:rgba(243,224,205,.92)!important}",
+      },
+      {
+        nombre: "5 · Logo",
+        desc: "Solo colores del logo y sus tonos: fondo blanco con un toque de petróleo, líneas en petróleo claro, precios en naranja oscurecido. <b>Sin beige ni marrón: 100% la marca.</b>",
+        vars: { "--kraft": "#eef4f2", "--kraft-dark": "#b7cdc9", "--paper": "#ffffff", "--wood": "#2b524f", "--leaf": "#4e7a75", "--rust": "#c4561d", "--ink": "#1d3634" },
+        css: "body{background-image:none!important}.top{background:rgba(238,244,242,.94)!important}.sheet__art,.q-item__art{background:#e1ebe9!important}",
+      },
+      {
+        nombre: "6 · Logo cálido",
+        desc: "Igual que la 5 pero con el fondo teñido del amarillo del logo y la franja en amarillo. <b>Marca pura, más luminosa y cálida.</b>",
+        vars: { "--kraft": "#fff9e0", "--kraft-dark": "#f2dc8a", "--paper": "#ffffff", "--wood": "#2b524f", "--leaf": "#4e7a75", "--rust": "#c4561d", "--ink": "#1d3634" },
+        css: "body{background-image:none!important}.top{background:rgba(255,249,224,.94)!important}.strip{background:#fecf07!important;color:#2b524f!important}.strip span::first-letter{color:#f28242!important}.sheet__art,.q-item__art{background:#fff1bf!important}",
+      },
+      {
+        nombre: "7 · Petróleo",
+        desc: "Fondo verde petróleo del logo, como el botón de cotización. Títulos y detalles en amarillo, acentos naranja; etiquetas y fotos en papel claro.",
+        vars: { "--kraft": "#2b524f", "--paper": "#fcf6e8", "--wood": "#fecf07" },
+        css: "",
+        oscura: true,
+      },
+    ];
+    // Las paletas 0–6 se armaron sobre la versión clara del sitio (copia en ejemplos/css/)
+    PALETAS.forEach((p) => { if (!p.oscura) p.claro = true; });
+
+    const frame = document.getElementById("frame");
+    const bar = document.getElementById("bar");
+    const info = document.getElementById("info");
+    let actual = Number(location.hash.slice(1)) || 0;
+
+    const color = (p, v, fallback) => p.vars[v] || fallback;
+    PALETAS.forEach((p, i) => {
+      const b = document.createElement("button");
+      b.innerHTML = `<span class="dots">${[color(p, "--kraft", "#ead9b8"), color(p, "--paper", "#fcf6e8"), "#2b524f", "#fecf07", "#f28242", color(p, "--wood", "#7a5a36")]
+        .map((c) => `<i style="background:${c}"></i>`).join("")}</span>${p.nombre}`;
+      b.onclick = () => { actual = i; location.hash = i; aplicar(); };
+      bar.appendChild(b);
+    });
+
+    function aplicar() {
+      const p = PALETAS[actual];
+      bar.querySelectorAll("button").forEach((b, i) => b.classList.toggle("on", i === actual));
+      info.innerHTML = p.desc;
+      const doc = frame.contentDocument;
+      if (!doc || !doc.documentElement) return;
+      const root = doc.documentElement;
+      const link = doc.querySelector('link[href*="catalogo"]');
+      const href = p.oscura ? "ejemplos/css/catalogo-petroleo.css" : "ejemplos/css/catalogo-claro.css";
+      if (link && link.getAttribute("href") !== href) link.setAttribute("href", href);
+      root.removeAttribute("style");
+      if (!p.oscura) Object.entries(p.vars).forEach(([k, v]) => root.style.setProperty(k, v));
+      let st = doc.getElementById("paleta-extra");
+      if (!st) { st = doc.createElement("style"); st.id = "paleta-extra"; doc.head.appendChild(st); }
+      st.textContent = p.css;
+    }
+    frame.addEventListener("load", aplicar);
+    aplicar();
+  </script>
+</body>
+</html>

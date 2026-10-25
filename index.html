@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sunflowers · Catálogo para empresas</title>
+  <meta name="description" content="Flores para oficinas, regalos corporativos, eventos y fechas especiales. Catálogo de propuestas de Sunflowers, florería de Buenos Aires.">
+  <meta property="og:title" content="Sunflowers · Catálogo para empresas">
+  <meta property="og:description" content="Flores para oficinas, regalos corporativos y eventos en Buenos Aires.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta property="og:image" content="img/logo.png">
+  <meta name="theme-color" content="#2b524f">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/catalogo.css">
+  <script>
+    // Intro de bienvenida (se saltea si el usuario prefiere menos movimiento). Respaldo: se apaga sola a los 7 s.
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("intro-on");
+      setTimeout(() => document.documentElement.classList.remove("intro-on"), 7000);
+    }
+  </script>
+</head>
+<body>
+
+  <!-- INTRO: logo + nombre escribiéndose -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <img class="intro__logo" src="img/logo.png" alt="" width="220" height="220">
+    <p class="intro__name"><span id="introText"></span><span class="intro__caret"></span></p>
+    <p class="intro__sub" id="introSub"></p>
+  </div>
+
+  <header class="top">
+    <div class="wrap bar">
+      <a href="#" class="logo"><img src="img/logo.png" alt="" width="56" height="56"><span data-tienda="nombre">Sunflowers</span></a>
+      <nav class="links">
+        <a href="#propuestas">propuestas</a>
+        <a href="#como">cómo trabajamos</a>
+        <a href="#taller">el taller</a>
+        <a href="#preguntas">preguntas</a>
+      </nav>
+      <button class="quote-btn" id="quoteOpen">mi cotización <b id="quoteCount">0</b></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- PORTADA -->
+    <section class="hero">
+      <div class="wrap hero__copy">
+        <span class="stamp" data-tienda="temporada">Catálogo 2026</span>
+        <p class="greeting" id="greeting" hidden></p>
+        <h1>
+          <span class="h1-line">Que cada momento <span class="bloom">florezca<svg class="bloom__marker" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true"><path d="M8 26 C 70 14, 150 30, 292 16"/></svg><svg class="bloom__flower" viewBox="-30 -30 60 60" aria-hidden="true"><g class="bloom__petals"><ellipse rx="6" ry="13" cy="-15"/><ellipse rx="6" ry="13" cy="-15" transform="rotate(45)"/><ellipse rx="6" ry="13" cy="-15" transform="rotate(90)"/><ellipse rx="6" ry="13" cy="-15" transform="rotate(135)"/><ellipse rx="6" ry="13" cy="-15" transform="rotate(180)"/><ellipse rx="6" ry="13" cy="-15" transform="rotate(225)"/><ellipse rx="6" ry="13" cy="-15" transform="rotate(270)"/><ellipse rx="6" ry="13" cy="-15" transform="rotate(315)"/></g><circle r="9" fill="#f28242"/><circle r="3" fill="#fff"/></svg></span></span>
+          <span class="hand h1-line">con flores hechas a mano</span>
+        </h1>
+        <div class="hero__cta">
+          <div class="note-hand note-hand--left" aria-hidden="true">
+            <span>respuesta<br>en 24 hs</span>
+            <svg viewBox="0 0 90 60"><path d="M6 14 C 30 6, 60 18, 78 42"/><path d="M66 42 L79 44 L80 30"/></svg>
+          </div>
+          <a href="#propuestas" class="ring"><span class="btn btn--green">Ver propuestas</span></a>
+          <button class="btn btn--paper" id="printBtn">Descargar PDF</button>
+        </div>
+
+        <!-- Notas manuscritas -->
+        <svg class="doodle doodle--slash" viewBox="0 0 60 50" aria-hidden="true"><path d="M14 44 L30 6 M30 44 L46 6"/></svg>
+        <div class="note-hand note-hand--right" aria-hidden="true">
+          <span>tocá una foto<br>y mirá el detalle</span>
+          <svg viewBox="0 0 140 190"><path d="M40 6 C 110 30, 130 90, 90 140 C 75 158, 60 168, 44 178"/><path d="M58 182 L42 179 L48 164"/></svg>
+        </div>
+      </div>
+
+      <div class="reels" id="reels" aria-label="Fotos de nuestras propuestas"></div>
+    </section>
+
+    <div class="strip">
+      <div class="wrap strip__inner">
+        <span>✿ +40 empresas nos eligen</span>
+        <span>✿ Factura A · pago a 30 días</span>
+        <span>✿ Entregas en CABA y GBA</span>
+        <span>✿ Tarjetas con tu marca</span>
+      </div>
+    </div>
+
+    <!-- PROPUESTAS -->
+    <section class="section deco deco--ramita-izq deco--girasol-der" id="propuestas">
+      <div class="wrap">
+        <div class="title">
+          <h2>nuestras propuestas</h2>
+          <p>Elegí las que te interesen y sumalas a tu cotización. Te respondemos en menos de 24 hs.</p>
+        </div>
+        <div class="chips" id="chips"></div>
+        <div class="tags" id="tags"></div>
+      </div>
+    </section>
+
+    <!-- CÓMO TRABAJAMOS -->
+    <section class="section deco deco--ramita-der" id="como">
+      <div class="wrap">
+        <div class="title"><h2>cómo trabajamos</h2><p>Simple, sin vueltas, y con alguien que te responde.</p></div>
+        <ol class="steps">
+          <li><b>1</b><h3>Elegís</h3><p>Sumás a tu cotización las propuestas que te gusten, con cantidades aproximadas.</p></li>
+          <li><b>2</b><h3>Cotizamos</h3><p>En menos de 24 hs te mandamos una propuesta a medida con precios finales.</p></li>
+          <li><b>3</b><h3>Probás</h3><p>Para suscripciones y eventos, te llevamos una muestra o visitamos el espacio.</p></li>
+          <li><b>4</b><h3>Florecen</h3><p>Programamos las entregas y te avisamos cada vez que llegan.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="section gallery-section deco deco--girasol-izq" id="taller">
+      <div class="wrap">
+        <div class="title"><h2>del taller</h2><p>Algunas de las flores que pasan por nuestras manos.</p></div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="wrap notes" id="notes"></section>
+
+    <!-- PREGUNTAS -->
+    <section class="section section--paper deco deco--girasol-der" id="preguntas">
+      <div class="wrap faq">
+        <div class="title"><h2>preguntas frecuentes</h2></div>
+        <div id="faq"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <a href="#" class="logo logo--light"><img src="img/logo.png" alt="Sunflowers" width="110" height="110"></a>
+        <p class="hand footer__tagline">flores hechas a mano, para equipos que florecen</p>
+      </div>
+      <div id="contact"></div>
+    </div>
+  </footer>
+
+  <!-- DETALLE DE PROPUESTA -->
+  <div class="modal" id="detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="sheet">
+      <button class="close" data-close aria-label="Cerrar">✕</button>
+      <div class="sheet__grid">
+        <div class="sheet__art" id="detailArt"></div>
+        <div>
+          <span class="sheet__linea" id="detailLinea"></span>
+          <h3 id="detailTitle"></h3>
+          <p id="detailDesc"></p>
+          <h4>incluye</h4>
+          <ul class="checks" id="detailIncluye"></ul>
+          <form id="detailForm" class="detail-form">
+            <fieldset id="detailOpciones"></fieldset>
+            <label class="qty-label">Cantidad <span id="detailUnidad"></span>
+              <input type="number" name="cantidad" id="detailCantidad" min="1" required>
+            </label>
+            <p class="min" id="detailMin"></p>
+            <button class="btn btn--sun" type="submit">Sumar a mi cotización</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COTIZACIÓN -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="drawer" id="drawer" aria-label="Mi cotización">
+    <div class="drawer__head">
+      <h3>mi cotización</h3>
+      <button class="close" id="quoteClose" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="drawer__body">
+      <div id="quoteItems"></div>
+      <div class="quote-total" id="quoteTotal"></div>
+      <form class="quote-form" id="quoteForm">
+        <h4>tus datos</h4>
+        <label>Empresa<input name="empresa" required></label>
+        <label>Nombre y apellido<input name="contacto" required></label>
+        <div class="row">
+          <label>Email<input name="email" type="email" required></label>
+          <label>Teléfono<input name="telefono"></label>
+        </div>
+        <label>¿Para cuándo?<input name="fecha" placeholder="Ej: 15 de diciembre, todos los lunes…"></label>
+        <label>Comentarios<textarea name="comentarios" rows="3" placeholder="Direcciones, colores de marca, presupuesto…"></textarea></label>
+        <div class="send">
+          <button class="btn btn--green" type="submit" data-via="whatsapp">Enviar por WhatsApp</button>
+          <button class="btn btn--paper" type="submit" data-via="email">Enviar por email</button>
+        </div>
+        <p class="fine">Los precios son de referencia y no incluyen IVA. Te confirmamos la propuesta final.</p>
+      </form>
+    </div>
+  </aside>
+
+  <!-- WHATSAPP -->
+  <a class="wa" id="waBtn" href="#" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+    <span class="wa__label">¿hablamos?</span>
+    <span class="wa__seal">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+    </span>
+  </a>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/flowers.js"></script>
+  <script src="js/catalogo-data.js"></script>
+  <script src="js/carrusel.js"></script>
+  <script src="js/catalogo.js"></script>
+  <script src="js/intro.js"></script>
+</body>
+</html>
